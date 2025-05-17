@@ -15,17 +15,21 @@ from pathlib import Path
 
 import environ
 
-env = environ.Env()
-environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# Initialize env and load .env from BASE_DIR
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+# ✅ At this point `env(...)` is safe to use:
+SECRET_KEY = env('SECRET_KEY', default='fallback-secret-if-needed')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
